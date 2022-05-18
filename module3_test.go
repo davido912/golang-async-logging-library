@@ -2,6 +2,7 @@ package alog
 
 import (
 	"bytes"
+	"fmt"
 	"strings"
 	"testing"
 	"time"
@@ -107,6 +108,7 @@ func TestWriteAllBeforeShutdownModule3(t *testing.T) {
 	go func() {
 		alog.Stop()
 		written := b.String()
+		fmt.Println(written)
 		if !strings.Contains(written, "first") || !strings.Contains(written, "second") {
 			t.Error("Not all messages written before logger shutdown")
 		}

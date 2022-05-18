@@ -33,7 +33,7 @@ func New(w io.Writer) *Alog {
 		msgCh:              make(chan string),
 		errorCh:            make(chan error),
 		m:                  new(sync.Mutex),
-		shutdownCh:         make(chan struct{}, 1),
+		shutdownCh:         make(chan struct{}),
 		shutdownCompleteCh: make(chan struct{}),
 	}
 }
@@ -48,10 +48,9 @@ func (al Alog) Start() {
 		case msg := <-al.msgCh:
 			wg.Add(1)
 			al.write(msg, wg)
-			wg.Wait()
+			//wg.Wait()
 
 		case <-al.shutdownCh:
-			fmt.Println("waiting")
 			wg.Wait()
 			al.shutdown()
 			return
